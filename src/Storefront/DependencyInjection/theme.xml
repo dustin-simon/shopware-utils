@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="http://symfony.com/schema/dic/services"
+		xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<services>
+
+		<!-- PluginLifecycleSubscriber -->
+		<service id="Dustin\ShopwareUtils\Storefront\Theme\Subscriber\PluginLifecycleSubscriber" decorates="Shopware\Storefront\Theme\Subscriber\PluginLifecycleSubscriber">
+			<argument type="service" id="Shopware\Storefront\Theme\StorefrontPluginRegistry" />
+			<argument>%kernel.project_dir%</argument>
+			<argument type="service" id="Shopware\Storefront\Theme\StorefrontPluginConfiguration\StorefrontPluginConfigurationFactory" />
+			<argument type="service" id="Shopware\Storefront\Theme\ThemeLifecycleHandler" />
+			<argument type="service" id="Shopware\Storefront\Theme\ThemeLifecycleService" />
+			<argument type="service" id="Shopware\Core\Framework\Plugin\KernelPluginLoader\KernelPluginLoader" />
+			<argument type="service" id="Dustin\ShopwareUtils\Storefront\Theme\Installer\ThemeRemover" />
+		</service>
+
+		<!-- ThemeRemover -->
+		<service id="Dustin\ShopwareUtils\Storefront\Theme\Installer\ThemeRemover">
+			<factory class="Dustin\ShopwareUtils\Storefront\Theme\Installer\ThemeRemover" method="getInstance" />
+
+			<argument type="service" id="service_container" />
+		</service>
+
+	</services>
+</container>
