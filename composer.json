@@ -1,0 +1,36 @@
+{
+	"name": "dustin/shopware-utils",
+	"type": "library",
+	"description": "Utilities for Shopware 6 plugin development",
+	"license": "MIT",
+	"keywords": [
+		"Shopware",
+		"plugin",
+		"util",
+		"bundle",
+		"Symfony"
+	],
+	"authors": [
+		{
+			"name": "Dustin Simon"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Dustin\\ShopwareUtils\\": "src/"
+		}
+	},
+	"require": {
+		"php": "~8.2 || ~8.3",
+		"ext-fileinfo": "*",
+		"doctrine/dbal": "~3.7",
+		"shopware/core": "~6.5.0 || ~6.6.0",
+		"shopware/storefront": "~6.5.0 || ~6.6.0",
+		"symfony/config": "~6.4 || ~7.0",
+		"symfony/dependency-injection": "~6.4 || ~7.0",
+		"symfony/deprecation-contracts": "~3.1",
+		"symfony/http-foundation": "~6.4 || ~7.0",
+		"symfony/http-kernel": "~6.4 || ~7.0",
+		"symfony/validator": "~6.4 || ~7.0"
+	}
+}
