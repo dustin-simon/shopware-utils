@@ -12,17 +12,15 @@ class CustomFieldTransformer implements TransformInterface
 {
     public function transform(string $identifier, array $data, AdditionalBundle|Plugin $bundle): array
     {
-        return [
+        $result = [
             'name' => $data['name'],
-            'config' => $data['config'],
-            'global' => $data['global'] ?? false,
+            'config' =>
+                [
+                    'translated' => $data['translated'],
+                    'label' => $data['label'],
+                ],
+            'global' => !($data['editable'] ?? false),
             'position' => $data['position'] ?? 1,
-            'customFields' => array_map(
-                function (array $customField): array {
-                    return $this->transformCustomField($customField);
-                },
-                $data['customFields']
-            ),
             'relations' => array_map(
                 function (string $relation): array {
                     return $this->transformRelation($relation);
@@ -30,6 +28,13 @@ class CustomFieldTransformer implements TransformInterface
                 $data['relations']
             ),
         ];
+
+        foreach($data['customFields'] as $name => $customField) {
+            $customField['name'] = $name;
+            $result['customFields'][] = $this->transformCustomField($customField);
+        }
+
+        return $result;
     }
 
     public function transformCustomField(array $customField): array
@@ -38,7 +43,7 @@ class CustomFieldTransformer implements TransformInterface
             'name' => $customField['name'],
             'type' => $this->getCustomFieldType($customField['type']),
             'config' => $this->getCustomFieldConfig($customField),
-            'allowCustomerWrite' => $customField['allowCustomerWrite'] ?? false,
+            'allowCustomerWrite' => $customField['allowStoreApiWrite'] ?? false,
             'allowCartExpose' => $customField['allowCartExpose'] ?? false,
         ];
     }
@@ -58,18 +63,18 @@ class CustomFieldTransformer implements TransformInterface
 
     protected function getCustomFieldConfig(array $customField): array
     {
-        $origin = $customField['config'];
-
         $config = [
-            'label' => $customField['config']['label'],
-            'customFieldPosition' => $origin['position'] ?? 1,
-            'helpText' => $origin['helpText'] ?? $this->emptyTranslations(),
-            'placeholder' => $origin['placeholder'] ?? $this->emptyTranslations(),
+            'label' => $customField['label'],
+            'customFieldPosition' => $customField['position'] ?? 1,
+            'helpText' => $customField['helpText'] ?? $this->emptyTranslations(),
+            'placeholder' => $customField['placeholder'] ?? $this->emptyTranslations(),
         ];
 
-        if(($origin['required'] ?? false) === true) {
+        if(($customField['required'] ?? false) === true) {
             $config['validation'] = 'required';
         }
+
+        $origin = $customField['config'] ?? [];
 
         switch($customField['type']) {
             case CustomFieldTypes::BOOL:

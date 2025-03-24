@@ -15,30 +15,32 @@ class FileNotEmptyValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, FileNotEmpty::class);
         }
 
-        if(!\is_file($constraint->file)) {
+        $file = $constraint->file ?? $value;
+
+        if(!\is_string($file) || !\is_file($file)) {
             return;
         }
 
         if(!$constraint->trimContent) {
-            if(\filesize($constraint->file) === 0) {
-                $this->addEmptyFileViolation($constraint);
+            if(\filesize($file) === 0) {
+                $this->addEmptyFileViolation($constraint, $file);
             }
 
             return;
         }
 
-        $content = \file_get_contents($constraint->file);
+        $content = \file_get_contents($file);
         $content = \trim($content);
 
         if(\strlen($content) === 0) {
-            $this->addEmptyFileViolation($constraint);
+            $this->addEmptyFileViolation($constraint, $file);
         }
     }
 
-    protected function addEmptyFileViolation(FileNotEmpty $constraint): void
+    protected function addEmptyFileViolation(FileNotEmpty $constraint, string $file): void
     {
         $this->context->buildViolation($constraint->message)
-            ->setParameter('{{ file }}', $constraint->file)
+            ->setParameter('{{ file }}', $file)
             ->setCode(FileNotEmpty::FILE_NOT_EMPTY_ERROR)
             ->addViolation();
     }
