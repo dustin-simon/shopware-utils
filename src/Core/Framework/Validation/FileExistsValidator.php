@@ -22,7 +22,10 @@ class FileExistsValidator extends ConstraintValidator
         }
 
         $baseDir = $constraint->baseDir ?? '';
-        $file = \rtrim($baseDir, '/').'/'.\ltrim($file, '/');
+
+        if(!empty($baseDir)) {
+            $file = \rtrim($baseDir, '/').'/'.\ltrim($file, '/');
+        }
 
         if(!\is_file($file)) {
             $this->context->buildViolation($constraint->message)

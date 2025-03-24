@@ -16,7 +16,7 @@ class FileNotEmpty extends Constraint
 
     public bool $trimContent = false;
 
-    public function __construct(public string $file, mixed $options = null, ?array $groups = null, mixed $payload = null)
+    public function __construct(public ?string $file = null, mixed $options = null, ?array $groups = null, mixed $payload = null)
     {
         parent::__construct($options, $groups, $payload);
     }

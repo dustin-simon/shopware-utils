@@ -23,7 +23,6 @@ class DocumentTypeValidationConstraintFactory extends ValidationConstraintFactor
                 'fileNamePrefix' => self::optional([new NotBlank(), new Type(['string'])]),
                 'fileNameSuffix' => self::optional([new NotBlank(), new Type(['string'])]),
                 'config' => self::optional([new Type('array')]),
-                'customFields' => $this->createCustomFieldsConstraints(),
                 'translations' => $this->createTranslationsConstraints($bundle, $identifier, $this)
             ],
             null, null,
