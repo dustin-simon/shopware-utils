@@ -9,29 +9,27 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class CustomFieldValidator
 {
     public function __construct(
-        protected readonly CustomFieldValidationConstraintFactory $constraintFactory
+        protected CustomFieldValidationConstraintFactory $constraintFactory
     ) {}
 
-    public function validate(array $customField, ExecutionContextInterface $context): void
+    public function validate(mixed $customField, ExecutionContextInterface $context): void
     {
+        if(!\is_array($customField)) {
+            return;
+        }
+
         $type = $customField['type'] ?? null;
-        $config = $customField['config'] ?? null;
 
-        // Will be handled by other constraints
-        if(!\is_string($type) || !\is_array($config)) {
+        if(!\is_string($type)) {
             return;
         }
 
-        $constraints = $this->constraintFactory->getConfigConstraintsForType($type);
-
-        if($constraints === null) {
-            return;
-        }
+        $constraints = $this->constraintFactory->createCustomFieldConstraints($type);
 
         $violations = $context->getValidator()
             ->startContext()
-            ->atPath($context->getPropertyPath().'[config]')
-            ->validate($config, $constraints)
+            ->atPath($context->getPropertyPath())
+            ->validate($customField, $constraints)
             ->getViolations();
 
         foreach($violations as $violation) {
@@ -39,12 +37,18 @@ class CustomFieldValidator
         }
 
         if(\in_array($type, [CustomFieldTypes::INT, CustomFieldTypes::FLOAT], true)) {
-            $this->validateMinMax($config, $context);
+            $this->validateMinMax($customField, $context);
         }
     }
 
-    protected function validateMinMax(array $config, ExecutionContextInterface $context): void
+    protected function validateMinMax(array $customField, ExecutionContextInterface $context): void
     {
+        $config = $customField['config'] ?? null;
+
+        if(!\is_array($config)) {
+            return;
+        }
+
         $min = $config['min'] ?? null;
         $max = $config['max'] ?? null;
 
