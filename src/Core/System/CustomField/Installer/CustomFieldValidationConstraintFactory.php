@@ -42,10 +42,10 @@ class CustomFieldValidationConstraintFactory extends ValidationConstraintFactory
                 'position' => self::optional([new Type('integer')]),
                 'customFields' => [
                     new NotBlank(),
-                    new Type('associative_array'),
+                    new Type('array'),
                     new All([
                         new NotBlank(),
-                        new Type('associative_array'),
+                        new Type('array'),
                         new Callback([$this->customFieldValidator, 'validate'])
                     ])
                 ],
@@ -147,7 +147,7 @@ class CustomFieldValidationConstraintFactory extends ValidationConstraintFactory
                 'multiselect' => [new NotNull(), new Type('bool')],
                 'options' => [
                     new NotBlank(),
-                    new Type('list'),
+                    new Type('array'),
                     new All(
                         new Collection(
                             [
@@ -214,7 +214,7 @@ class CustomFieldValidationConstraintFactory extends ValidationConstraintFactory
     {
         $constraints = [
             new NotBlank(),
-            new Type('associative_array'),
+            new Type('array'),
             new Collection($constraints, null, null, false)
         ];
 
