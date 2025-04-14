@@ -49,7 +49,7 @@ class CustomFieldValidationConstraintFactory extends ValidationConstraintFactory
                         new Callback([$this->customFieldValidator, 'validate'])
                     ])
                 ],
-                'relations' => [new NotBlank(), new All([new Type('string')])],
+                'relations' => self::optional([new NotBlank(), new All([new Type('string')])]),
             ],
             null, null,
             false
