@@ -50,6 +50,6 @@ abstract class ValidationConstraintFactory
 
     public function createCustomFieldsConstraints(): array|Constraint
     {
-        return self::optional([new Type('associative_array')]);
+        return self::optional([new Type('array')]);
     }
 }

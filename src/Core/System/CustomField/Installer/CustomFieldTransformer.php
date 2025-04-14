@@ -21,11 +21,11 @@ class CustomFieldTransformer implements TransformInterface
                 ],
             'global' => !($data['editable'] ?? false),
             'position' => $data['position'] ?? 1,
-            'relations' => array_map(
+            'relations' => \array_map(
                 function (string $relation): array {
                     return $this->transformRelation($relation);
                 },
-                $data['relations']
+                $data['relations'] ?? []
             ),
         ];
 

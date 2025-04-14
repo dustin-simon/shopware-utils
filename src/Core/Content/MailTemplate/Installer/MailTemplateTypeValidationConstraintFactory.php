@@ -21,13 +21,13 @@ class MailTemplateTypeValidationConstraintFactory extends ValidationConstraintFa
             [
                 'technicalName' => [new NotBlank(), new Type('string'), new IdenticalTo($identifier)],
                 'availableEntities' => self::optional([
-                    new Type('associative_array'),
+                    new Type('array'),
                     new All([
                         new NotBlank(null, null, true),
                         new Type(['string', 'null'])
                     ])
                 ], true),
-                'templateData' => self::optional([new Type('associative_array')], true),
+                'templateData' => self::optional([new Type('array')], true),
                 'translations' => $this->createTranslationsConstraints($bundle, $identifier, $this)
             ],
             null, null,
