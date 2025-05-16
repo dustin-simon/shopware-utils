@@ -177,7 +177,7 @@ trait BundleTrait
         $configService = $container->get(SystemConfigService::class);
 
         foreach($this->getConfigs() as $name => $config) {
-            $configService->saveConfig($config, \sprintf('%s.%s', $this->getName(), $name), false);
+            $configService->saveConfig($config, \sprintf('%s.%s.', $this->getName(), $name), false);
         }
     }
 
