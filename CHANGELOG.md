@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.0.3
+---
+
+* Move changelog file
+
 1.0.2
 ---
 
