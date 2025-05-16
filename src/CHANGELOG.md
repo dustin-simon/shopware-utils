@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.0.2
+---
+
+* Fix prefixing of default config values
+
 1.0.1
 ---
 
