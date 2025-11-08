@@ -20,14 +20,14 @@ use Shopware\Core\Framework\Plugin\PluginEntity;
 use Shopware\Core\Framework\Plugin\PluginLifecycleService;
 use Shopware\Storefront\Theme\StorefrontPluginConfiguration\AbstractStorefrontPluginConfigurationFactory;
 use Shopware\Storefront\Theme\StorefrontPluginConfiguration\StorefrontPluginConfigurationCollection;
-use Shopware\Storefront\Theme\StorefrontPluginRegistryInterface;
+use Shopware\Storefront\Theme\StorefrontPluginRegistry;
 use Shopware\Storefront\Theme\ThemeLifecycleHandler;
 use Shopware\Storefront\Theme\ThemeLifecycleService;
 
 class PluginLifecycleSubscriber extends \Shopware\Storefront\Theme\Subscriber\PluginLifecycleSubscriber
 {
     public function __construct(
-        private readonly StorefrontPluginRegistryInterface $_storefrontPluginRegistry,
+        private readonly StorefrontPluginRegistry $_storefrontPluginRegistry,
         private readonly string $_projectDir,
         private readonly AbstractStorefrontPluginConfigurationFactory $_pluginConfigurationFactory,
         private readonly ThemeLifecycleHandler $_themeLifecycleHandler,
