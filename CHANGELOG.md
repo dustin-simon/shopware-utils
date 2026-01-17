@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.1.0
+---
+
+* Add compatibility with Shopware 6.7
+
 1.0.3
 ---
 
